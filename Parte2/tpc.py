@@ -16,9 +16,9 @@ def safe_alter_image(image, value, curtain_position):
     altered_image = image_float.copy()
 
 
-    # darken only the part covered by the curtain
-    altered_image[:, :curtain_position, :] = (
-        image_float[:, :curtain_position, :] + value
+    # darken only the part covered by the curtain           #novo
+    altered_image[:, :curtain_position, :] = (              #novo
+        image_float[:, :curtain_position, :] + value        #novo
     )
 
 
@@ -60,7 +60,7 @@ def main():
     # Curtain effect + progressive darkening
     # --------------------------------
 
-    for i in range(0, width + 1, 20):
+    for i in range(0, width + 1, 20):               #novo
 
         # darkness increases with time
         darkness = -(i // 20) * 10
