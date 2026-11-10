@@ -1,5 +1,11 @@
 #!/usr/bin/env python3 
 # Shebang line" specifies the interpreter. 
+#---------------------------------------------------------------------------------------------------------
+# Ex2: Remoção do chão.
+# Novo em relação ao ex1: segment_plane (RANSAC) encontra o plano do chão;
+# select_by_index(invert=True) fica só com os outliers (edifício e árvores),
+# que são gravados em "factory_no_floor.pcd".
+#----------------------------------------------------------------------------------------------------------
 
 # imports --------------------
 import argparse

@@ -1,3 +1,6 @@
+# Ex1: Carregar a nuvem de pontos "factory.ply" e visualizá-la com Open3D.
+# Ponto de vista inicial fixo (front, lookat, up, zoom) definido no dicionário "viewpoint".
+#-------------------------------------------------------------------------------------------------------------------------
 #!/usr/bin/env python3 
 # Shebang line" specifies the interpreter. 
 
