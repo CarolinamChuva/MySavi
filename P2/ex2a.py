@@ -1,58 +1,76 @@
-#!/usr/bin/env python3
+# ---------------------------------------------------------------
+# SAVI - Parte 2 - Exercício 2a: Segmentar a relva em BGR
+#
+# Resumo:
+# - Separar a relva do cão em dog_1.jpg com limiares nos canais B, G, R
+#   (cv2.split + máscaras booleanas com np.logical_and).
+# - Relva = G alto, R e B baixos; as 3 máscaras são combinadas.
+# - Pós-processamento com dilatação (morfologia) para fechar buracos.
+# - Máscara do cão = negação da máscara da relva (só há cão e relva).
+# - Limitação: em BGR a cor e o brilho estão misturados, por isso as
+#   sombras e as zonas muito iluminadas ficam fora da máscara da relva.
+# ---------------------------------------------------------------
 
-# imports
 import cv2
 import numpy as np
 
+def showMask(window_name, image):
+    image_to_show = image.astype(np.uint8)*255
+    cv2.imshow(window_name, image_to_show)
 
 # Main function
-def main():
+def main(): # this is our main function
     print("SAVI exercise")
 
-    # load image
-    image = cv2.imread("C:/Users/carolina marques/Desktop/SAVI/MySavi/images/dog_1.jpg")
-
+    # relative path
+    image = cv2.imread("images/dog_2.jpg")
     height, width, channels = image.shape
-    image = cv2.resize(image, (round(width/2), round(height/2)))
-
-    cv2.imshow("Original", image)
-
+    image = cv2.resize(image, (round(width/2), round(height/2) ))
+    cv2.imshow('Original', image)
+    H,W,NC = image.shape
 
     # --------------------------------
-    # Segment green color to isolate the grass
+    # Segment green color to isolate the grass 
     # --------------------------------
 
-    # split BGR channels
+    # split of the color channels
     b, g, r = cv2.split(image)
+    cv2.imshow('R', r)
+    cv2.imshow('G', g)
+    cv2.imshow('B', b)
 
-    #cv2.imshow("Blue channel", b)
-    #cv2.imshow("Green channel", g)
-    #cv2.imshow("Red channel", r)
+    # get masks by imposing limits on the channels
+    mask_r = np.logical_and( r >0, r <80) 
+    #showMask('mask_r', mask_r)
 
-    #get mask by iposign limits on the channels
-    mask_b = np.logical_and (b>0, b<100)
+    mask_g = np.logical_and( g >100, g <255) 
+    #showMask('mask_g', mask_g)
 
-    print('mask_b dtype' + str(mask_b.dtype))
-    image_to_show = mask_b.astype(np.uint8)*255
-    #cv2.imshow('mask_b', image_to_show)
+    mask_b = np.logical_and( b >0, b <80) 
+    #showMask('mask_b', mask_b)
 
-    #get mask by iposign limits on the channels
-    mask_g = np.logical_and (g>130, g<255)
+    # Putting the mask alltoghether
+    mask = np.logical_and(mask_r, mask_g)
+    mask = np.logical_and(mask, mask_b)
 
-    print('mask_g dtype' + str(mask_g.dtype))
-    image_to_show = mask_g.astype(np.uint8)*255
-    #cv2.imshow('mask_g', image_to_show)
+    showMask('mask', mask)
 
-    #get mask by iposign limits on the channels
-    mask_r = np.logical_and (r>0, r<100)
+    # Post processing using morphological operations 
+    kernel = np.ones((5, 5), np.uint8)
+
+    mask_uint8 = mask.astype(np.uint8)*255
+    mask_dilated_uint8 = cv2.dilate(mask_uint8, kernel, iterations=2)
+    mask_dilated = (mask_dilated_uint8.astype(float)/255).astype(np.bool)
+
+    #cv2.imshow("mask_dilated", mask_dilated_uint8)
+    showMask('dilated mask', mask_dilated)
     
-    print('mask_r dtype' + str(mask_r.dtype))
-    image_to_show = mask_r.astype(np.uint8)*255
-    #cv2.imshow('mask_r', image_to_show)
+    # to get the mask of thedog we negate the mask of the grass, 
+    # assuming the image contains only dog and grass
+    mask_dog = np.logical_not(mask_dilated)
 
-    mask= np.logical_and(mask_r, mask_b)
-    mask= np.logical_and(mask, mask_g)
-    cv2.imshow('mask', image_to_show)
+
+    showMask('dog mask', mask_dog)
 
 
     cv2.waitKey(0)
@@ -60,3 +78,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+

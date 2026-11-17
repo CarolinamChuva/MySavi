@@ -1,8 +1,18 @@
+# =============================================================================
+# SAVI - Parte 3, Exercício 1: Features SIFT
+#
+# Resumo:
+#   - Carrega duas imagens da pasta santorini (1.png = train, 2.png = query).
+#   - Calcula as features do tipo SIFT com cv2.SIFT_create, limitando o número
+#     de keypoints a 500 (argumento -nk / --number_of_keypoints).
+#   - Visualiza os keypoints encontrados em ambas as imagens com
+#     cv2.drawKeypoints (DRAW_RICH_KEYPOINTS: tamanho e orientação de cada ponto).
+#   - A escala das janelas é configurável (argumento -is / --image_scale).
+#
+# Uso:
+#   python ex1.py -nk 500 -is 0.5
+# =============================================================================
 
-#!/usr/bin/env python3 
-# Shebang line" specifies the interpreter. 
-
-# imports --------------------
 import argparse
 from random import randint
 import cv2
@@ -58,8 +68,8 @@ def main(): # this is our main function
     print('Input args: ' + str(args))
 
     # Load the images
-    train_image = cv2.imread('C:/Users/carolina marques/OneDrive - Universidade de Aveiro/Desktop/SAVI/MySavi/images/1.png')
-    query_image = cv2.imread('C:/Users/carolina marques/OneDrive - Universidade de Aveiro/Desktop/SAVI/MySavi/images/2.png')
+    train_image = cv2.imread('../images/santorini/1.png')
+    query_image = cv2.imread('../images/santorini/2.png')
 
     # create the gui images for displaying
     train_image_gui = train_image.copy()
@@ -100,5 +110,3 @@ if __name__ == "__main__":
     main()
 
 
-
-    

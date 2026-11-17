@@ -1,7 +1,18 @@
-#!/usr/bin/env python3 
-# Shebang line" specifies the interpreter. 
+# ---------------------------------------------------------------
+# SAVI - Parte 2 - Exercício 3: Classificar (dog vs person)
+#
+# Resumo:
+# - 3a: segmentar a relva em HSV, negar a máscara, ficar com o maior
+#   componente conexo e recortar o retângulo envolvente (bbox).
+#   Feito para as 8 imagens; os recortes são guardados em crops/.
+# - 3b: medir cada objeto: relação altura/largura da bbox, fração da
+#   bbox ocupada pela máscara e cor média em HSV dentro da máscara
+#   (a matiz usa média circular). Imprime uma tabela.
+# - 3c: regra com limiar na relação altura/largura:
+#   > limiar -> person, caso contrário -> dog. Mostra o resultado
+#   escrito por cima de cada imagem.
+# ---------------------------------------------------------------
 
-# imports --------------------
 import cv2
 import numpy as np
 
@@ -154,7 +165,6 @@ def main(): # this is our main function
 
 if __name__ == "__main__":
     main()
-
 
 
 

@@ -1,3 +1,22 @@
+# ==========================================================
+# SAVI - Parte 6 - Exercício 2: correção de côr entre imagens
+#
+# RESUMO:
+# - Imagens: 1.png (train) e query_warped.png (query já alinhada
+#   ao referencial da train; pixeis fora da query estão a preto).
+# - Modelo de correção do ex1: I' = s * I + b
+# - Função objetivo: diferença entre as duas imagens em cada pixel
+#   da zona de sobreposição (máscara = pixeis não pretos da query).
+# - MODE = 1: corrige as duas imagens (4 parâmetros)
+#       -> degenera: s=0 em ambas dá erro 0 (sem referência fixa).
+# - MODE = 2: train fixa, corrige só a query (2 parâmetros)
+#       -> converge para uma solução útil.
+# - MODE = 3: devolve só a média dos erros (1 valor)
+#       -> os erros +/- cancelam-se e há 1 só equação para 2
+#          incógnitas, por isso o resultado é mau/arbitrário.
+# ==========================================================
+
+
 import argparse
 from pathlib import Path
 from scipy.optimize import least_squares
